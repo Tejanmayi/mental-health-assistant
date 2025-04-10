@@ -1,14 +1,14 @@
 {
-  "name": "mh-counselor",
+  "name": "mental-health-frontend",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "vercel-build": "npm run build",
     "preview": "vite preview",
-    "vercel-build": "npm install && npm run build"
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "mongodb": "^6.15.0",

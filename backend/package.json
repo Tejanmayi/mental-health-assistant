@@ -15,7 +15,9 @@
     "generate-embeddings": "node src/db/generate_embeddings.js",
     "create-counseling-table": "\"\"C:\\Program Files\\PostgreSQL\\17\\bin\\psql\" -h localhost -U postgres -d mental_health_db -f scripts/create_counseling_table.sql\"",
     "load-counseling-data": "node scripts/load_counseling_data.js",
-    "create-users-table": "\"\"C:\\Program Files\\PostgreSQL\\17\\bin\\psql\" -h localhost -U postgres -d mental_health_db -f scripts/create_users_table.sql\""
+    "create-users-table": "\"\"C:\\Program Files\\PostgreSQL\\17\\bin\\psql\" -h localhost -U postgres -d mental_health_db -f scripts/create_users_table.sql\"",
+    "build": "echo 'No build step required'",
+    "postinstall": "mkdir -p /tmp/model_cache"
   },
   "dependencies": {
     "@google-cloud/vision": "^5.1.0",
