@@ -18,7 +18,10 @@ class DepressionModel {
       },
       connectionTimeoutMillis: 10000,
       idleTimeoutMillis: 30000,
-      max: 20
+      max: 20,
+      family: 4, // Force IPv4
+      keepAlive: true,
+      keepAliveInitialDelayMillis: 0
     });
     
     this.trainingData = [];
@@ -84,11 +87,21 @@ class DepressionModel {
       
       // Test database connection
       try {
+        console.log('Attempting to connect to database...');
+        console.log('Using host:', process.env.POSTGRES_HOST);
+        console.log('Using port:', process.env.POSTGRES_PORT);
+        
         const client = await this.pgPool.connect();
         console.log('Successfully connected to PostgreSQL database');
         client.release();
       } catch (dbError) {
         console.error('Database connection error:', dbError);
+        console.error('Connection details:', {
+          host: process.env.POSTGRES_HOST,
+          port: process.env.POSTGRES_PORT,
+          database: process.env.POSTGRES_DB,
+          user: process.env.POSTGRES_USER
+        });
         throw new Error(`Failed to connect to database: ${dbError.message}`);
       }
       
