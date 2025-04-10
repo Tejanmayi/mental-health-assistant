@@ -7,6 +7,7 @@ export const analyzeText = async (text) => {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({ text }),
         });
 
@@ -28,6 +29,7 @@ export const extractText = async (file) => {
 
         const response = await fetch(`${API_BASE_URL}/api/extract`, {
             method: 'POST',
+            credentials: 'include',
             body: formData,
         });
 
@@ -45,7 +47,9 @@ export const extractText = async (file) => {
 export const api = {
     // Health check
     checkHealth: async () => {
-        const response = await fetch(`${API_BASE_URL}/api/health`);
+        const response = await fetch(`${API_BASE_URL}/api/health`, {
+            credentials: 'include'
+        });
         return response.json();
     },
 
@@ -56,6 +60,7 @@ export const api = {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify(credentials),
         });
         return response.json();
@@ -67,6 +72,7 @@ export const api = {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify(userData),
         });
         return response.json();
@@ -79,13 +85,16 @@ export const api = {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify(data),
         });
         return response.json();
     },
 
     getPredictionHistory: async () => {
-        const response = await fetch(`${API_BASE_URL}/api/predict/history`);
+        const response = await fetch(`${API_BASE_URL}/api/predict/history`, {
+            credentials: 'include'
+        });
         return response.json();
     },
 
@@ -96,6 +105,7 @@ export const api = {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({ text: clinicalNotes }),
             });
             return await response.json();
