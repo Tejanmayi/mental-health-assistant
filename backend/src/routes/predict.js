@@ -3,6 +3,18 @@ import depressionModel from '../models/depressionModel.js';
 
 const router = express.Router();
 
+// GET endpoint
+router.get('/', (req, res) => {
+  res.json({
+    message: 'Depression prediction service is running',
+    status: 'ok',
+    availableEndpoints: {
+      POST: '/api/predict',
+      description: 'Submit clinical notes for depression risk analysis'
+    }
+  });
+});
+
 router.post('/', async (req, res) => {
   try {
     const { clinicalNotes } = req.body;
