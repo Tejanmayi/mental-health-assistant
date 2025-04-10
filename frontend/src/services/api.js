@@ -1,15 +1,57 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_BASE_URL = 'https://mental-health-backend-gho3.onrender.com';
 
-const api = {
+export const analyzeText = async (text) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/analyze`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to analyze text');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error analyzing text:', error);
+        throw error;
+    }
+};
+
+export const extractText = async (file) => {
+    try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await fetch(`${API_BASE_URL}/api/extract`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to extract text');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error extracting text:', error);
+        throw error;
+    }
+};
+
+export const api = {
     // Health check
     checkHealth: async () => {
-        const response = await fetch(`${API_URL}/api/health`);
+        const response = await fetch(`${API_BASE_URL}/api/health`);
         return response.json();
     },
 
     // Authentication
     login: async (credentials) => {
-        const response = await fetch(`${API_URL}/api/auth/login`, {
+        const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -20,7 +62,7 @@ const api = {
     },
 
     register: async (userData) => {
-        const response = await fetch(`${API_URL}/api/auth/register`, {
+        const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -32,7 +74,7 @@ const api = {
 
     // Depression Prediction
     predictDepression: async (data) => {
-        const response = await fetch(`${API_URL}/api/predict`, {
+        const response = await fetch(`${API_BASE_URL}/api/predict`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,30 +85,23 @@ const api = {
     },
 
     getPredictionHistory: async () => {
-        const response = await fetch(`${API_URL}/api/predict/history`);
+        const response = await fetch(`${API_BASE_URL}/api/predict/history`);
         return response.json();
     },
 
     async predict(clinicalNotes) {
         try {
-            const response = await fetch(`${API_URL}/api/predict`, {
+            const response = await fetch(`${API_BASE_URL}/api/predict`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ clinicalNotes }),
+                body: JSON.stringify({ text: clinicalNotes }),
             });
-
-            if (!response.ok) {
-                throw new Error('Failed to process prediction');
-            }
-
             return await response.json();
         } catch (error) {
-            console.error('API Error:', error);
+            console.error('Error predicting depression:', error);
             throw error;
         }
-    }
-};
-
-export { api }; 
+    },
+}; 
