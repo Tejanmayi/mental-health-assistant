@@ -61,19 +61,27 @@ class DepressionModel {
     try {
       // Initialize Hugging Face inference with proper token
       if (!process.env.HUGGINGFACE_API_KEY) {
-        throw new Error('HUGGINGFACE_API_KEY is not set in environment variables');
+        console.warn('HUGGINGFACE_API_KEY is not set in environment variables, using simple analysis only');
+        this.hf = null;
+        return;
       }
       
       this.hf = new HfInference(process.env.HUGGINGFACE_API_KEY);
       console.log('Model initialized successfully');
     } catch (error) {
       console.error('Error initializing model:', error);
-      throw error;
+      this.hf = null;
     }
   }
 
   async analyzeWithLLM(clinicalNotes) {
     try {
+      // If Hugging Face is not available, use simple analysis
+      if (!this.hf) {
+        console.log('Using simple analysis as Hugging Face is not available');
+        return this.simpleTextAnalysis(clinicalNotes);
+      }
+
       console.log('Starting LLM analysis...');
       
       const prompt = `Analyze the following clinical notes for depression risk assessment. 
@@ -130,9 +138,6 @@ class DepressionModel {
       }
     } catch (error) {
       console.error('Error in analyzeWithLLM:', error);
-      if (error.message.includes('401')) {
-        console.error('Authentication error: Please check your Hugging Face API token permissions');
-      }
       return this.simpleTextAnalysis(clinicalNotes);
     }
   }

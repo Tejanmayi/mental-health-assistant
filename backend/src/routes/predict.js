@@ -15,6 +15,7 @@ router.get('/', (req, res) => {
   });
 });
 
+// POST endpoint for predictions
 router.post('/', async (req, res) => {
   try {
     const { clinicalNotes } = req.body;
@@ -28,9 +29,7 @@ router.post('/', async (req, res) => {
 
     const result = await depressionModel.analyzeWithLLM(clinicalNotes);
 
-    // Save the prediction to the database
-    await depressionModel.savePrediction(clinicalNotes, result);
-
+    // Return the prediction without saving to database
     res.json({
       success: true,
       data: {
@@ -44,7 +43,8 @@ router.post('/', async (req, res) => {
     console.error('Error in predict route:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to analyze clinical notes'
+      error: 'Failed to analyze clinical notes',
+      details: error.message
     });
   }
 });
