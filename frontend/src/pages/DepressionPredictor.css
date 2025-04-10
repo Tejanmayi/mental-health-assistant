@@ -1,0 +1,292 @@
+.predictor-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 200px;
+  position: relative;
+  z-index: 1;
+}
+
+.predictor-container h1 {
+  color: rgb(13, 33, 23);
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.description {
+  color: rgb(13, 33, 23);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.prediction-form {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: rgb(13, 33, 23);
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid rgb(13, 33, 23);
+  border-radius: 4px;
+  font-size: 1rem;
+  background: white;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgb(67, 165, 115);
+  box-shadow: 0 0 0 2px rgba(67, 165, 115, 0.2);
+}
+
+/* File Upload Styles */
+.file-upload-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.file-input {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.file-label {
+  background-color: rgb(67, 165, 115);
+  color: white !important;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+  display: inline-block;
+  text-align: center;
+  font-weight: 500;
+}
+
+.file-label:hover {
+  background-color: rgba(67, 165, 115, 0.9);
+}
+
+.file-name {
+  color: rgb(13, 33, 23);
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.file-preview {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.file-preview img {
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.pdf-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.pdf-preview i {
+  font-size: 2rem;
+  color: #e74c3c;
+}
+
+.pdf-preview span {
+  font-size: 1rem;
+  color: #333;
+}
+
+.submit-button {
+  background-color: rgb(67, 165, 115);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: rgba(67, 165, 115, 0.9);
+}
+
+.submit-button:disabled {
+  background-color: rgba(67, 165, 115, 0.5);
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #e74c3c;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.prediction-result {
+  margin-top: 2rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.prediction-result h2 {
+  color: rgb(13, 33, 23);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.result-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid rgb(67, 165, 115);
+}
+
+.result-section h3 {
+  color: rgb(13, 33, 23);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.patient-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.patient-info p {
+  margin: 0;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 4px;
+}
+
+.patient-info strong {
+  color: rgb(67, 165, 115);
+  margin-right: 0.5rem;
+}
+
+.risk-level {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.risk-level .level {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  color: white;
+}
+
+.risk-level .level.low {
+  background-color: #2ecc71;
+}
+
+.risk-level .level.moderate {
+  background-color: #f1c40f;
+}
+
+.risk-level .level.high {
+  background-color: #e74c3c;
+}
+
+.risk-level .confidence {
+  color: rgb(13, 33, 23);
+  font-size: 0.9rem;
+}
+
+.key-findings,
+.recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.finding-item,
+.recommendation-item {
+  padding: 1rem;
+  background: white;
+  border-radius: 4px;
+  position: relative;
+  padding-left: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+.finding-item:hover,
+.recommendation-item:hover {
+  background: #f0f0f0;
+}
+
+.finding-item:before,
+.recommendation-item:before {
+  content: "•";
+  color: rgb(67, 165, 115);
+  position: absolute;
+  left: 1rem;
+  font-size: 1.2rem;
+} 

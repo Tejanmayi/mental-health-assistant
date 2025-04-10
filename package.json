@@ -1,0 +1,20 @@
+{
+  "name": "mental-health-counselor-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start": "cd frontend && npm run preview",
+    "install": "cd frontend && npm install",
+    "vercel-build": "cd frontend && npm install && npm run build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "csv-parse": "^5.6.0",
+    "mongod": "^2.0.0",
+    "mongodb": "^6.15.0"
+  }
+}
