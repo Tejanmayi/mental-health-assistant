@@ -171,4 +171,16 @@ router.post('/', upload.single('file'), async (req, res) => {
   }
 });
 
+// Add GET endpoint
+router.get('/', (req, res) => {
+  res.json({
+    message: 'Text extraction service is running',
+    status: 'ok',
+    availableEndpoints: {
+      POST: '/api/extract-text',
+      description: 'Upload an image file to extract text using OCR'
+    }
+  });
+});
+
 export default router; 

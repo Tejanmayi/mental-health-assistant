@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import authRoutes from './routes/auth.js';
 import predictRoutes from './routes/predict.js';
 import searchRoutes from './routes/search.js';
@@ -13,7 +14,16 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+// CORS configuration
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://mental-health-counselor-assistant.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+
 // Middleware
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
@@ -37,6 +47,15 @@ app.use('/api/auth', authRoutes);
 app.use('/api/predict', predictRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/extract-text', extractTextRoutes);
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Mental Health Counselor Assistant API',
+    status: 'running',
+    version: '1.0.0'
+  });
+});
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
