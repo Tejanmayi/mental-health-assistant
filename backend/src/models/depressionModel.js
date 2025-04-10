@@ -13,7 +13,12 @@ class DepressionModel {
       database: process.env.POSTGRES_DB,
       user: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
-      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+      ssl: {
+        rejectUnauthorized: false
+      },
+      connectionTimeoutMillis: 10000,
+      idleTimeoutMillis: 30000,
+      max: 20
     });
     
     this.trainingData = [];
@@ -76,6 +81,16 @@ class DepressionModel {
       }
       
       this.hf = new HfInference(process.env.HUGGINGFACE_API_KEY);
+      
+      // Test database connection
+      try {
+        const client = await this.pgPool.connect();
+        console.log('Successfully connected to PostgreSQL database');
+        client.release();
+      } catch (dbError) {
+        console.error('Database connection error:', dbError);
+        throw new Error(`Failed to connect to database: ${dbError.message}`);
+      }
       
       // Load training data from database
       const result = await this.pgPool.query('SELECT * FROM counseling_responses');
