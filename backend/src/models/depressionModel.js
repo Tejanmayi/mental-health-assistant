@@ -1,29 +1,10 @@
 import { HfInference } from '@huggingface/inference';
-import pkg from 'pg';
-const { Pool } = pkg;
 import dotenv from 'dotenv';
 dotenv.config();
 
 // Simple depression prediction model using text similarity
 class DepressionModel {
   constructor() {
-    this.pgPool = new Pool({
-      host: process.env.POSTGRES_HOST,
-      port: process.env.POSTGRES_PORT,
-      database: process.env.POSTGRES_DB,
-      user: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      ssl: {
-        rejectUnauthorized: false
-      },
-      connectionTimeoutMillis: 10000,
-      idleTimeoutMillis: 30000,
-      max: 20,
-      family: 4, // Force IPv4
-      keepAlive: true,
-      keepAliveInitialDelayMillis: 0
-    });
-    
     this.trainingData = [];
     this.initialize();
 
@@ -84,31 +65,6 @@ class DepressionModel {
       }
       
       this.hf = new HfInference(process.env.HUGGINGFACE_API_KEY);
-      
-      // Test database connection
-      try {
-        console.log('Attempting to connect to database...');
-        console.log('Using host:', process.env.POSTGRES_HOST);
-        console.log('Using port:', process.env.POSTGRES_PORT);
-        
-        const client = await this.pgPool.connect();
-        console.log('Successfully connected to PostgreSQL database');
-        client.release();
-      } catch (dbError) {
-        console.error('Database connection error:', dbError);
-        console.error('Connection details:', {
-          host: process.env.POSTGRES_HOST,
-          port: process.env.POSTGRES_PORT,
-          database: process.env.POSTGRES_DB,
-          user: process.env.POSTGRES_USER
-        });
-        throw new Error(`Failed to connect to database: ${dbError.message}`);
-      }
-      
-      // Load training data from database
-      const result = await this.pgPool.query('SELECT * FROM counseling_responses');
-      this.trainingData = result.rows;
-      
       console.log('Model initialized successfully');
     } catch (error) {
       console.error('Error initializing model:', error);
@@ -307,27 +263,6 @@ class DepressionModel {
       return await this.analyzeWithLLM(inputText);
     } catch (error) {
       console.error('Error generating response:', error);
-      throw error;
-    }
-  }
-
-  async savePrediction(inputText, predictionResult) {
-    try {
-      const query = `
-        INSERT INTO prediction_history (input_text, prediction_result)
-        VALUES ($1, $2)
-        RETURNING id
-      `;
-      
-      const values = [
-        inputText,
-        predictionResult
-      ];
-      
-      const { rows } = await this.pgPool.query(query, values);
-      return rows[0];
-    } catch (error) {
-      console.error('Error saving prediction:', error);
       throw error;
     }
   }
