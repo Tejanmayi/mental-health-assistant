@@ -1,13 +1,15 @@
-const API_BASE_URL = 'https://mental-health-backend-gho3.onrender.com';
+const API_BASE_URL = '/api';
+
+const defaultHeaders = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+};
 
 export const analyzeText = async (text) => {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/analyze`, {
+        const response = await fetch(`${API_BASE_URL}/analyze`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
+            headers: defaultHeaders,
             body: JSON.stringify({ text }),
         });
 
@@ -27,9 +29,8 @@ export const extractText = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch(`${API_BASE_URL}/api/extract`, {
+        const response = await fetch(`${API_BASE_URL}/extract`, {
             method: 'POST',
-            credentials: 'include',
             body: formData,
         });
 
@@ -47,32 +48,24 @@ export const extractText = async (file) => {
 export const api = {
     // Health check
     checkHealth: async () => {
-        const response = await fetch(`${API_BASE_URL}/api/health`, {
-            credentials: 'include'
-        });
+        const response = await fetch(`${API_BASE_URL}/health`);
         return response.json();
     },
 
     // Authentication
     login: async (credentials) => {
-        const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
+            headers: defaultHeaders,
             body: JSON.stringify(credentials),
         });
         return response.json();
     },
 
     register: async (userData) => {
-        const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+        const response = await fetch(`${API_BASE_URL}/auth/register`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
+            headers: defaultHeaders,
             body: JSON.stringify(userData),
         });
         return response.json();
@@ -80,32 +73,24 @@ export const api = {
 
     // Depression Prediction
     predictDepression: async (data) => {
-        const response = await fetch(`${API_BASE_URL}/api/predict`, {
+        const response = await fetch(`${API_BASE_URL}/predict`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
+            headers: defaultHeaders,
             body: JSON.stringify(data),
         });
         return response.json();
     },
 
     getPredictionHistory: async () => {
-        const response = await fetch(`${API_BASE_URL}/api/predict/history`, {
-            credentials: 'include'
-        });
+        const response = await fetch(`${API_BASE_URL}/predict/history`);
         return response.json();
     },
 
     async predict(clinicalNotes) {
         try {
-            const response = await fetch(`${API_BASE_URL}/api/predict`, {
+            const response = await fetch(`${API_BASE_URL}/predict`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
+                headers: defaultHeaders,
                 body: JSON.stringify({ text: clinicalNotes }),
             });
             return await response.json();
